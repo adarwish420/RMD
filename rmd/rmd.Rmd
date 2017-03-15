@@ -10,10 +10,19 @@ library(tidyverse)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Diamonds
+# Diamonds
 
-This document will examine the relationship between the **Carat** size and a diamond's **Price**.
+This document will examine the nature of diamond **pricing**, **availability**, and **purity** and much more.
+
+## Price Relative to Carats
 
 ```{r , echo=FALSE, message=FALSE}
 ggplot(data = diamonds) + geom_point(aes(x= price, y= carat)) + geom_smooth(aes(x=price, y=carat))
+```
+
+## Common Colors
+
+```{r , echo=FALSE, message=FALSE}
+ggplot(data = diamonds) +
+  geom_bar( aes(color, fill = color))
 ```
