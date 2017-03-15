@@ -2,7 +2,10 @@
 title: "Diamonds"
 author: "Amjad Darwish"
 date: "3/15/2017"
-output: html_document
+output: 
+  html_document:
+    toc: true
+    toc_float: true
 ---
 
 ```{r setup, include=FALSE}
@@ -10,16 +13,18 @@ library(tidyverse)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-This document will examine the nature of diamond **pricing**, **availability**, and **purity** and much more.
+##Introduction
+This document will examine the nature of diamond **pricing** when wieghed against things like **Carats**, **Color**, **Cut**, and **Clarity**.
 
 ## Price Relative to Carats
-
 ```{r , echo=FALSE, message=FALSE}
 ggplot(data = diamonds) + geom_point(aes(x= price, y= carat)) + geom_smooth(aes(x=price, y=carat))
 ```
 
-## Common Colors
+Looking at the data this way will be very difficult for us due to the huge data points it includes. We need to filter and play around with the dataset to be able to come to any meaningful conclusions.
 
+## Common Colors
+Let's first start off with colors. We would want to focus on the most used or common diamond colors. Below is a graph that shows the number of diamonds presented by each color.
 ```{r , echo=FALSE, message=FALSE}
 ggplot(data = diamonds) +
   geom_bar( aes(color, fill = color)) + scale_fill_brewer(palette = "YlOrRd")
@@ -31,7 +36,7 @@ As shown in the above graph, the most common diamond colors in the market are *E
 diamonds2 <- diamonds %>% filter(color %in% c("E", "F", "G"))
 ```
 
-## Common Cuts
+## Premium Cuts
 Diving deeper into the three colors we talked about earlier, we can conclude from the graph below that the most common cut for all of them is the ideal cut, which ranks as the **highest quality** cut there is.
 
 ```{r, echo=FALSE}
@@ -47,4 +52,18 @@ Further asserting that notion is the fact that, as mentioned below, these three 
 ggplot(data = diamonds2) +
   geom_bar(aes(cut), fill = "steelblue2") + facet_grid(color ~ .)
 ```
+
+## Clarity Levels
+
+```{r include=FALSE}
+diamonds3 <- diamonds2 %>% filter(cut %in% c("Ideal", "Premium", "Very Good"))
+```
+
+```{r echo=FALSE, message=FALSE}
+ggplot(diamonds3, aes(price, carat)) +
+  geom_point(aes(colour = clarity)) + geom_smooth(aes(x=price, y=carat), color = "gray37") + scale_colour_brewer(palette = "PRGn")
+```
+
+
+
 
