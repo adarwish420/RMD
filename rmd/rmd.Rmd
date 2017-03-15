@@ -10,8 +10,6 @@ library(tidyverse)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-# Diamonds
-
 This document will examine the nature of diamond **pricing**, **availability**, and **purity** and much more.
 
 ## Price Relative to Carats
@@ -24,5 +22,29 @@ ggplot(data = diamonds) + geom_point(aes(x= price, y= carat)) + geom_smooth(aes(
 
 ```{r , echo=FALSE, message=FALSE}
 ggplot(data = diamonds) +
-  geom_bar( aes(color, fill = color))
+  geom_bar( aes(color, fill = color)) + scale_fill_brewer(palette = "YlOrRd")
 ```
+
+As shown in the above graph, the most common diamond colors in the market are *E*, *F*, and *G*. Let's try and explore more information regarding those specific colors.
+
+```{r, include=FALSE}
+diamonds2 <- diamonds %>% filter(color %in% c("E", "F", "G"))
+```
+
+## Common Cuts
+Diving deeper into the three colors we talked about earlier, we can conclude from the graph below that the most common cut for all of them is the ideal cut, which ranks as the **highest quality** cut there is.
+
+```{r, echo=FALSE}
+ggplot(data = diamonds2, aes(x = "cut share", fill = cut)) +
+  geom_bar(width = 1) + coord_polar("y", start=0) + scale_fill_brewer(palette="Blues") +
+  theme_minimal()
+```
+
+
+Further asserting that notion is the fact that, as mentioned below, these three colors are cut mostly in *Ideal*.
+
+```{r, echo=FALSE}
+ggplot(data = diamonds2) +
+  geom_bar(aes(cut), fill = "steelblue2") + facet_grid(color ~ .)
+```
+
