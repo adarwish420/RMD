@@ -1,0 +1,19 @@
+---
+title: "Diamonds"
+author: "Amjad Darwish"
+date: "3/15/2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Diamonds
+
+This document will examine the relationship between the **Carat** size and a diamond's **Price**.
+
+```{r , echo=FALSE, message=FALSE}
+ggplot(data = diamonds) + geom_point(aes(x= price, y= carat)) + geom_smooth(aes(x=price, y=carat))
+```
