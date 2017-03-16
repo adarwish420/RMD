@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 library(tidyverse)
+library(knitr)
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -53,10 +54,11 @@ ggplot(data = diamonds2) +
   geom_bar(aes(cut), fill = "steelblue2") + facet_grid(color ~ .)
 ```
 
-## Clarity Levels
 ```{r include=FALSE}
 diamonds3 <- diamonds2 %>% filter(cut %in% c("Ideal", "Premium", "Very Good"))
 ```
+
+## Clarity Levels
 
 ```{r echo=FALSE, message=FALSE}
 ggplot(diamonds3, aes(price, carat)) +
@@ -70,6 +72,37 @@ The clarity levels for the colors and cuts we chose are shown in the graph below
 ```{r, echo=FALSE}
 ggplot(data = diamonds3) +
   geom_bar(aes(clarity), fill = "steelblue2") + facet_grid(cut ~ color)
+```
+
+From the above chart, we can conclude that clarity levels **VS2** & **SI1** are dominant across all colors. Going forward, all of our analysis will include only these two levels.
+
+```{r, include=FALSE}
+diamonds4 <- diamonds3 %>% filter(clarity %in% c("SI1", "VS2"))
+```
+
+```{r echo=FALSE, message=FALSE}
+ggplot(diamonds4, aes(price, carat)) +
+  geom_point(aes(colour = clarity)) + geom_smooth(aes(x=price, y=carat), color = "gray37") + scale_colour_brewer(palette = "Spectral")
+```
+
+## Final Iterations
+Looking at the below jitter graph, we can further minimize our datapoints by examining only the **Ideal** cut with a clarity of **SI1**.
+```{r echo=FALSE}
+ggplot(diamonds4, aes(cut, clarity)) +
+  geom_jitter(aes(color = color), size = 0.5) + scale_colour_brewer(palette="Set1") + theme_minimal()
+```
+
+```{r include=FALSE}
+diamonds5 <- diamonds4 %>% filter(cut == "Ideal", clarity == "SI1")
+```
+##Conclusions
+
+Examining the effects of color on price after filtering down to one cut and one clarity level.
+
+```{r echo=FALSE}
+ggplot(diamonds5, aes(x = price, y = color)) + geom_point(aes(color = color, shape = color)) +
+  scale_color_manual(values = c("#999999", "#E69F00", "#56B4E9"))+
+  theme_minimal()
 ```
 
 
