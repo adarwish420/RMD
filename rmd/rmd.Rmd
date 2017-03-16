@@ -54,7 +54,6 @@ ggplot(data = diamonds2) +
 ```
 
 ## Clarity Levels
-
 ```{r include=FALSE}
 diamonds3 <- diamonds2 %>% filter(cut %in% c("Ideal", "Premium", "Very Good"))
 ```
@@ -64,6 +63,13 @@ ggplot(diamonds3, aes(price, carat)) +
   geom_point(aes(colour = clarity)) + geom_smooth(aes(x=price, y=carat), color = "gray37") + scale_colour_brewer(palette = "PRGn")
 ```
 
+Looking at the chart above, it is still includes a lot of data points for us to make a fair assumption about the diamonds price compared to their clarity. In this section, we will try to narrow down the data by only including the most common clarity levels.
 
+The clarity levels for the colors and cuts we chose are shown in the graph below:
+
+```{r, echo=FALSE}
+ggplot(data = diamonds3) +
+  geom_bar(aes(clarity), fill = "steelblue2") + facet_grid(cut ~ color)
+```
 
 
